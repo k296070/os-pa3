@@ -269,7 +269,7 @@ graph saved in the `graph.png` file
 The default `xv6` scheduler does not utilize the nice value, meaning all the processes are treated equally.
 Each process is scheduled in a round-robin fashion, with each receiving a time slice of 1 tick. 
 
-![task1-rr](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-rr.png)
+![task1-rr](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-rr.png)
 
 ### Under the partial SNULE scheduler (Part 2)
 
@@ -280,14 +280,14 @@ However, the parent process (pid 3) is not scheduled until `C4` (pid 7) releases
 For the same reason, after `C2` (pid 5) terminates at tick 32, the parent process (pid 3) is only scheduled after `C4` (pid 7) terminates at tick 43.
 Once `C3` (pid 6) exits, the load decreases to 1 as the parent process remains in the run queue, and `C4` receives a time slice of 10 ticks. 
 
-![task1-psnule](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-psnule.png)
+![task1-psnule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-psnule.png)
 
 ### Under the complete SNULE scheduler (Part 3)
 
 Under the complete SNULE scheduler, the parent process (pid 3) is classified as an interactive process, as it spends most of its time in waiting for the child processes in `wait()`. 
 As a result, the parent process is scheduled immediately when one of its child processes terminates.
 
-![task1-snule](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-snule.png)
+![task1-snule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-snule.png)
 
 ---
 ## Tips
