@@ -296,7 +296,7 @@ As a result, the parent process is scheduled immediately when one of its child p
 
 * For your reference, the following roughly shows the amount of changes you need to make for this project assignment. Each `+` symbol indicates 1~10 lines of code that should be added, deleted, or altered.
    ```
-   kernel/def.h       |  +
+   kernel/defs.h      |  +
    kernel/proc.c      |  +++++++
    kernel/proc.h      |  +
    kernel/start.c     |  +
