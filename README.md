@@ -173,7 +173,7 @@ Prepare a design document detailing your implementation in a single PDF file. Yo
   * Discuss any optimizations you applied to improve code efficiency, both in terms of time and space.
 4. Testing and validation
   * Outline the test cases you created to validate the implementation of the SNULE scheduler.
-  * Include the graphs generated from running your test cases and provide an explanation of why the results should appear as they do 
+  * Include the graphs generated from running your test cases and provide an explanation of why the results should appear as they do.
   * Describe how you verified the correct handling of the corner cases mentioned in Section 2. 
      
 ## Restrictions
