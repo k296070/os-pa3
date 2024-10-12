@@ -70,10 +70,11 @@ If the interactivity score of a process is less than `SCHED_INTERACT_THRESH` (de
 This ensures that the priorities of such processes are evenly distributed within the interactive range, from 80 to 99, according to their interactivity scores. 
 For processes with interactivity scores above the threshold, their priority is determined solely by their nice values.
 
-`// Only for interactive processes`
-
-`p->prio` = `PRIO_MIN_INTERACT` + 
-            ((`PRIO_INTERACT_RANGE` * is(p)) / `SCHED_INTERACT_THRESH`)
+```C
+// Only for interactive processes
+p->prio = PRIO_MIN_INTERACT + 
+          ((PRIO_INTERACT_RANGE * is(p)) / SCHED_INTERACT_THRESH);
+```
 
 The interactivity score and priority of a process are recalculated each time the process is placed into the RQ.
 As mentioned earlier, interactive processes are assigned a time slice of 1 tick. 
