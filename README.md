@@ -149,6 +149,8 @@ In Part 3, you will implement the complete SNULE scheduler, incorporating all th
 * Interactive processes have a priority value in the range [80, 99].
 * Time slices for interactive processes are fixed at 1 tick.
 
+To track a process's run time and sleep time, you can use the `ticks` variable (located in `kernel/trap.c`), which is incremented by one with each timer tick. 
+
 ### Part 4. Test Cases and Documentation (20 points)
 
 #### Test Cases (10 points)
