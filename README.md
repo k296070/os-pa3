@@ -220,7 +220,6 @@ Some macros (such as `PRINTLOG_START` and `PRINTLOG_END`) and various scheduling
 The `pa3` branch includes a user-level program called `task1`, with its source code located in `./user/task1.c`. 
 The `task1` program begins by sleeping for 1 tick, after which it forks four child processes, `C1` to `C4`.
 Each child process has its nice value incremented by one, ranging from 1 to 4, respectively, making `C1` the highest-priority process. 
-After sleeping for 1 tick, the `task1` program forks four child processes, `C1` to `C4`, whose nice values are gradually increased by one.
 The child processes perform some computations and then terminate. 
 After creating the child processes, the parent process increases its nice value to the maximum, effectively becoming the lowest-priority process. The parent process is occasionally woken up from `wait()` to reap the terminated child processes. 
 
@@ -233,8 +232,8 @@ Note that the `graph.py` script requires the Python matplotlib package. Please i
 $ sudo apt install python3-matplotlib
 ```
 
-In order to generate a graph, you should run `xv6` using the `make qemu-log` command that saves all the output into the file named `xv6.log`.
-And then run the `make png` command to generate the `graph.png` file using the Python script `graph.py` as shown below.
+To generate a graph, you should run `xv6` using the `make qemu-log` command that saves all the output into the file named `xv6.log`.
+And then, run the `make png` command to generate the `graph.png` file using the Python script `graph.py` as shown below.
 
 ```
 $ make qemu-log
