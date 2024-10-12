@@ -121,7 +121,7 @@ In Part 2, you are required to implement a subset of the SNULE scheduler that do
 * Conceptually, there are two run queues (RQs): the current RQ and the next RQ. Only the runnable processes are placed in these queues. When the current RQ becomes empty, the scheduler alternates the queues, making the next RQ the current RQ, and the previously current RQ becomes the next RQ.
 * The scheduler allocates the CPU to the process with the highest priority in the current RQ.
 * Runnable processes should be organized in the order of their priorities in RQs, allowing the scheduler to find the highest-priority process in constant time.
-* Each process is allocated a time slice between 1 to `SCHED_SLICE_DEFAULT` ticks.
+* Each process is allocated a time slice between 1 to `SCHED_SLICE_DEFAULT` ticks depending on the system load.
 * On each timer interrupt, the scheduler recomputes the time slice of the current process based on the `sysload` value. If the number of ticks used by the current process exceeds its recomputed time slice, the process is preempted.
 
 Additionally, you are required to implement the `nice()` system call. The system call number for `nice()` has already been assigned as 22 in the `./kernel/syscall.h` file. 
