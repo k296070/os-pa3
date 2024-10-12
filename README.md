@@ -71,6 +71,7 @@ This ensures that the priorities of such processes are evenly distributed within
 For processes with interactivity scores above the threshold, their priority is determined solely by their nice values.
 
 `// Only for interactive processes`
+
 `p->prio` = `PRIO_MIN_INTERACT` + 
             ((`PRIO_INTERACT_RANGE` * is(p)) / `SCHED_INTERACT_THRESH`)
 
