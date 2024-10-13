@@ -197,7 +197,7 @@ Similarly, if a section of code is required for both Part2 and Part3, you should
 * Do not add any system calls other than `nice()`.
 * Please use the `qemu` version 8.2.0 or later. To determine the `qemu` version, use the command: `$ qemu-system-riscv64 --version`
 * We will run `qemu-system-riscv64` with the `-icount shift=0` option, which enables aligning the host and virtual clocks. This setting is already included in the `Makefile`.
-* You only need to modify files in the `./kernel` directory. For your test cases, put them into the `./user` directory. Any other changes will be ignored during grading.
+* You are required to modify only the files in the `./kernel` directory, except for `./kernel/systest.c`, which will be used for automatic grading. For your test cases, place them in the `./user` directory. Any other changes will be ignored during grading.
 
 ## Skeleton Code
 
@@ -286,7 +286,7 @@ Once `C3` (pid 6) exits, the load decreases to 1 as the parent process remains i
 
 ### Under the complete SNULE scheduler (Part 3)
 
-Under the complete SNULE scheduler, the parent process (pid 3) is classified as an interactive process, as it spends most of its time in waiting for the child processes in `wait()`. 
+Under the complete SNULE scheduler, the parent process (pid 3) is classified as an interactive process, as it spends most of its time in waiting for child processes to terminate in `wait()`. 
 As a result, the parent process is scheduled immediately when one of its child processes terminates.
 
 ![task1-snule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-snule.png)
