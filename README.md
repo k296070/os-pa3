@@ -6,7 +6,6 @@
 
 Currently, the CPU scheduler of `xv6` uses a simple round-robin policy. The goal of this project is to understand the scheduling subsystem of `xv6` by implementing the simplified version of FreeBSD's ULE scheduler.
 
----
 ## The SNULE Scheduler
 
 ### The ULE Scheduler
@@ -79,7 +78,6 @@ p->prio = PRIO_MIN_INTERACT +
 The interactivity score and priority of a process are recalculated each time the process is placed into the RQ.
 As mentioned earlier, interactive processes are assigned a time slice of 1 tick. 
 
----
 ## Problem Specification
 
 ### Part 1. Tracking CPU bursts and system load (10 points)
@@ -293,7 +291,6 @@ As a result, the parent process is scheduled immediately when one of its child p
 
 ![task1-snule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-snule.png)
 
----
 ## Tips
 
 * Read Chap. 7 of the [xv6 book](http://csl.snu.ac.kr/courses/4190.307/2024-2/book-riscv-rev4.pdf) to understand the scheduling subsystem of `xv6`.
@@ -309,7 +306,6 @@ As a result, the parent process is scheduled immediately when one of its child p
    kernel/snule.c     |  +++++++++++++++++
    ```
 
----
 ## Hand in instructions
 
 * First, make sure you are on the `pa3` branch in your `xv6-riscv-snu` directory. And then perform the `make submit` command to generate a compressed tar file named `xv6-{PANUM}-{STUDENTID}.tar.gz` in the `../xv6-riscv-snu` directory. Upload this file to the submission server. Additionally, your design document should be uploaded as the report for this project assignment.
@@ -322,7 +318,6 @@ As a result, the parent process is scheduled immediately when one of its child p
      + If you cannot reach the server a minute after the update time, check your IP address, as you might have sent the wrong IP address.
      + If you still cannot access the server after a while, it is likely due to an error in the automated process. The TAs will check if the script is running properly, but since that is a ___manual___ process, please do not expect it to be completed immediately.
 
----
 ## Logistics
 
 * You will work on this project alone.
