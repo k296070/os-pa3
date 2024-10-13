@@ -106,7 +106,7 @@ The log format is as follows: `[timestamp] [pid] ["starts"|"ends"] [load]`.
 * The actions `starts` or `ends` signify whether the corresponding CPU burst starts or ends at that specific moment. 
 * The `load` represents the number of runnable processes in the system, excluding the currently running process. 
 
-The required macro, `PRINTLOG_START` and `PRINTLOG_END`, are defined in `kernel/snule.h`. Your task is to place these macros in the appropriate locations within the kernel to accurately track CPU bursts. Note that you need to add `-DLOG` (along with `-DSNU`) into the `CFLAGS` in `Makefile` to enable these macros. To monitor system load, there is a global variable `sysload` defined in the `kernel/snule.c` file, which must be updated whenever a process becomes runnable or stops running. Additionally, a Python script, `graph.py`, is provided to help you visualize your log output. 
+The required macros, `PRINTLOG_START` and `PRINTLOG_END`, are defined in `kernel/snule.h`. Your task is to place these macros in the appropriate locations within the kernel to accurately track CPU bursts. Note that you need to add `-DLOG` (along with `-DSNU`) into the `CFLAGS` in `Makefile` to enable these macros. To monitor system load, there is a global variable `sysload` defined in the `kernel/snule.c` file, which must be updated whenever a process becomes runnable or stops running. Additionally, a Python script, `graph.py`, is provided to help you visualize your log output. 
 
 Please ensure that the tracking of CPU bursts and system load continues to function correctly after implementing Part 2 and Part 3 of this project. 
 
