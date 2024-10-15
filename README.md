@@ -6,6 +6,7 @@
 
 Currently, the CPU scheduler of `xv6` uses a simple round-robin policy. The goal of this project is to understand the scheduling subsystem of `xv6` by implementing the simplified version of FreeBSD's ULE scheduler.
 
+---
 ## The SNULE Scheduler
 
 ### The ULE Scheduler
@@ -69,15 +70,13 @@ If the interactivity score of a process is less than `SCHED_INTERACT_THRESH` (de
 This ensures that the priorities of such processes are evenly distributed within the interactive range, from 80 to 99, according to their interactivity scores. 
 For processes with interactivity scores above the threshold, their priority is determined solely by their nice values.
 
-```C
-// Only for interactive processes
-p->prio = PRIO_MIN_INTERACT + 
-          ((PRIO_INTERACT_RANGE * is(p)) / SCHED_INTERACT_THRESH);
-```
+`p->prio` = `PRIO_MIN_INTERACT` + 
+            ((`PRIO_INTERACT_RANGE` * is(p)) / `SCHED_INTERACT_THRESH`)
 
 The interactivity score and priority of a process are recalculated each time the process is placed into the RQ.
 As mentioned earlier, interactive processes are assigned a time slice of 1 tick. 
 
+---
 ## Problem Specification
 
 ### Part 1. Tracking CPU bursts and system load (10 points)
@@ -106,7 +105,7 @@ The log format is as follows: `[timestamp] [pid] ["starts"|"ends"] [load]`.
 * The actions `starts` or `ends` signify whether the corresponding CPU burst starts or ends at that specific moment. 
 * The `load` represents the number of runnable processes in the system, excluding the currently running process. 
 
-The required macros, `PRINTLOG_START` and `PRINTLOG_END`, are defined in `kernel/snule.h`. Your task is to place these macros in the appropriate locations within the kernel to accurately track CPU bursts. Note that you need to add `-DLOG` (along with `-DSNU`) into the `CFLAGS` in `Makefile` to enable these macros. To monitor system load, there is a global variable `sysload` defined in the `kernel/snule.c` file, which must be updated whenever a process becomes runnable or stops running. Additionally, a Python script, `graph.py`, is provided to help you visualize your log output. 
+The required macro, `PRINTLOG_START` and `PRINTLOG_END`, are defined in `kernel/snule.h`. Your task is to place these macros in the appropriate locations within the kernel to accurately track CPU bursts. Note that you need to add `-DLOG` (along with `-DSNU`) into the `CFLAGS` in `Makefile` to enable these macros. To monitor system load, there is a global variable `sysload` defined in the `kernel/snule.c` file, which must be updated whenever a process becomes runnable or stops running. Additionally, a Python script, `graph.py`, is provided to help you visualize your log output. 
 
 Please ensure that the tracking of CPU bursts and system load continues to function correctly after implementing Part 2 and Part 3 of this project. 
 
@@ -119,7 +118,7 @@ In Part 2, you are required to implement a subset of the SNULE scheduler that do
 * Conceptually, there are two run queues (RQs): the current RQ and the next RQ. Only the runnable processes are placed in these queues. When the current RQ becomes empty, the scheduler alternates the queues, making the next RQ the current RQ, and the previously current RQ becomes the next RQ.
 * The scheduler allocates the CPU to the process with the highest priority in the current RQ.
 * Runnable processes should be organized in the order of their priorities in RQs, allowing the scheduler to find the highest-priority process in constant time.
-* Each process is allocated a time slice between 1 to `SCHED_SLICE_DEFAULT` ticks depending on the system load.
+* Each process is allocated a time slice between 1 to `SCHED_SLICE_DEFAULT` ticks.
 * On each timer interrupt, the scheduler recomputes the time slice of the current process based on the `sysload` value. If the number of ticks used by the current process exceeds its recomputed time slice, the process is preempted.
 
 Additionally, you are required to implement the `nice()` system call. The system call number for `nice()` has already been assigned as 22 in the `./kernel/syscall.h` file. 
@@ -147,8 +146,6 @@ In Part 3, you will implement the complete SNULE scheduler, incorporating all th
 * Interactive processes have a priority value in the range [80, 99].
 * Time slices for interactive processes are fixed at 1 tick.
 
-To track a process's run time and sleep time, you can use the `ticks` variable (located in `kernel/trap.c`), which is incremented by one with each timer tick. 
-
 ### Part 4. Test Cases and Documentation (20 points)
 
 #### Test Cases (10 points)
@@ -171,7 +168,7 @@ Prepare a design document detailing your implementation in a single PDF file. Yo
   * Discuss any optimizations you applied to improve code efficiency, both in terms of time and space.
 4. Testing and validation
   * Outline the test cases you created to validate the implementation of the SNULE scheduler.
-  * Include the graphs generated from running your test cases and provide an explanation of why the results should appear as they do.
+  * Include the graphs generated from running your test cases and provide an explanation of why the results should appear as they do 
   * Describe how you verified the correct handling of the corner cases mentioned in Section 2. 
      
 ## Restrictions
@@ -197,7 +194,7 @@ Similarly, if a section of code is required for both Part2 and Part3, you should
 * Do not add any system calls other than `nice()`.
 * Please use the `qemu` version 8.2.0 or later. To determine the `qemu` version, use the command: `$ qemu-system-riscv64 --version`
 * We will run `qemu-system-riscv64` with the `-icount shift=0` option, which enables aligning the host and virtual clocks. This setting is already included in the `Makefile`.
-* You are required to modify only the files in the `./kernel` directory, except for `./kernel/systest.c`, which will be used for automatic grading. For your test cases, place them in the `./user` directory. Any other changes will be ignored during grading.
+* You only need to modify files in the `./kernel` directory. For your test cases, put them into the `./user` directory. Any other changes will be ignored during grading.
 
 ## Skeleton Code
 
@@ -218,6 +215,7 @@ Some macros (such as `PRINTLOG_START` and `PRINTLOG_END`) and various scheduling
 The `pa3` branch includes a user-level program called `task1`, with its source code located in `./user/task1.c`. 
 The `task1` program begins by sleeping for 1 tick, after which it forks four child processes, `C1` to `C4`.
 Each child process has its nice value incremented by one, ranging from 1 to 4, respectively, making `C1` the highest-priority process. 
+After sleeping for 1 tick, the `task1` program forks four child processes, `C1` to `C4`, whose nice values are gradually increased by one.
 The child processes perform some computations and then terminate. 
 After creating the child processes, the parent process increases its nice value to the maximum, effectively becoming the lowest-priority process. The parent process is occasionally woken up from `wait()` to reap the terminated child processes. 
 
@@ -230,8 +228,8 @@ Note that the `graph.py` script requires the Python matplotlib package. Please i
 $ sudo apt install python3-matplotlib
 ```
 
-To generate a graph, you should run `xv6` using the `make qemu-log` command that saves all the output into the file named `xv6.log`.
-And then, run the `make png` command to generate the `graph.png` file using the Python script `graph.py` as shown below.
+In order to generate a graph, you should run `xv6` using the `make qemu-log` command that saves all the output into the file named `xv6.log`.
+And then run the `make png` command to generate the `graph.png` file using the Python script `graph.py` as shown below.
 
 ```
 $ make qemu-log
@@ -271,7 +269,7 @@ graph saved in the `graph.png` file
 The default `xv6` scheduler does not utilize the nice value, meaning all the processes are treated equally.
 Each process is scheduled in a round-robin fashion, with each receiving a time slice of 1 tick. 
 
-![task1-rr](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-rr.png)
+![task1-rr](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-rr.png)
 
 ### Under the partial SNULE scheduler (Part 2)
 
@@ -282,22 +280,23 @@ However, the parent process (pid 3) is not scheduled until `C4` (pid 7) releases
 For the same reason, after `C2` (pid 5) terminates at tick 32, the parent process (pid 3) is only scheduled after `C4` (pid 7) terminates at tick 43.
 Once `C3` (pid 6) exits, the load decreases to 1 as the parent process remains in the run queue, and `C4` receives a time slice of 10 ticks. 
 
-![task1-psnule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-psnule.png)
+![task1-psnule](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-psnule.png)
 
 ### Under the complete SNULE scheduler (Part 3)
 
-Under the complete SNULE scheduler, the parent process (pid 3) is classified as an interactive process, as it spends most of its time in waiting for child processes to terminate in `wait()`. 
+Under the complete SNULE scheduler, the parent process (pid 3) is classified as an interactive process, as it spends most of its time in waiting for the child processes in `wait()`. 
 As a result, the parent process is scheduled immediately when one of its child processes terminates.
 
-![task1-snule](https://github.com/snu-csl/os-pa3/blob/master/graph-task1-snule.png)
+![task1-snule](https://github.com/snu-csl/os-pa3/blob/main/graph-task1-snule.png)
 
+---
 ## Tips
 
 * Read Chap. 7 of the [xv6 book](http://csl.snu.ac.kr/courses/4190.307/2024-2/book-riscv-rev4.pdf) to understand the scheduling subsystem of `xv6`.
 
 * For your reference, the following roughly shows the amount of changes you need to make for this project assignment. Each `+` symbol indicates 1~10 lines of code that should be added, deleted, or altered.
    ```
-   kernel/defs.h      |  +
+   kernel/def.h       |  +
    kernel/proc.c      |  +++++++
    kernel/proc.h      |  +
    kernel/start.c     |  +
@@ -306,18 +305,18 @@ As a result, the parent process is scheduled immediately when one of its child p
    kernel/snule.c     |  +++++++++++++++++
    ```
 
+---
 ## Hand in instructions
 
 * First, make sure you are on the `pa3` branch in your `xv6-riscv-snu` directory. And then perform the `make submit` command to generate a compressed tar file named `xv6-{PANUM}-{STUDENTID}.tar.gz` in the `../xv6-riscv-snu` directory. Upload this file to the submission server. Additionally, your design document should be uploaded as the report for this project assignment.
 
-* The total number of submissions for this project assignment will be limited to 30. Only the version marked as `FINAL` will be considered for the project score. Please remember to designate the version you wish to submit using the `FINAL` button.
-
-* The `sys` server will no longer accept submissions after three days (72 hours) past the deadline.
+* The total number of submissions for this project assignment will be limited to 30. Only the version marked as `FINAL` will be considered for the project score. Please remember to designate the version you wish to submit using the `FINAL` button. 
   
 * Note that the submission server is only accessible inside the SNU campus network. If you want off-campus access (from home, cafe, etc.), you can add your IP address by submitting a Google Form whose URL is available in the eTL. Now, adding your new IP address is automated by a script that periodically checks the Google Form at minutes 0, 20, and 40 during the hours between 09:00 and 00:40 the following day, and at minute 0 every hour between 01:00 and 09:00.
      + If you cannot reach the server a minute after the update time, check your IP address, as you might have sent the wrong IP address.
      + If you still cannot access the server after a while, it is likely due to an error in the automated process. The TAs will check if the script is running properly, but since that is a ___manual___ process, please do not expect it to be completed immediately.
 
+---
 ## Logistics
 
 * You will work on this project alone.
